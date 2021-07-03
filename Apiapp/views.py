@@ -8,12 +8,12 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework import serializers
 import uuid
-from .models import Advisor
+from .models import Advisor,Book
 
 
 
 
-class RegistrationAPIView(generics.ListCreateAPIView):
+class RegistrationAPIView(generics.GenericAPIView):
     
     queryset = User.objects.all()
     # permission_classes = (permissions.IsAuthenticated,)
@@ -40,6 +40,6 @@ class AdvisorViewSet(generics.ListCreateAPIView):
     serializer_class=AdvisorSerializer
 
 class ViewSet(generics.ListCreateAPIView):
-    queryset=Advisor.objects.all()
+    queryset=Book.objects.all()
     permission_classes = (permissions.IsAuthenticated,)
     serializer_class=BookSerializer    
