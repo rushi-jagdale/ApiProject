@@ -1,6 +1,6 @@
 from django.db.models import base
 from rest_framework import serializers
-from .models import Advisor
+from .models import Advisor,Book
 from django.contrib.auth.models import User
 
 
@@ -33,3 +33,10 @@ class AdvisorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Advisor
         fields = ('id','name','imageUrl')
+
+class BookSerializer(serializers.ModelSerializer):
+    created_by = serializers.ReadOnlyField(source='created_by.username', read_only=False)
+    class Meta:
+        fields = (
+            'id','adviser_id','created_by','date_created')
+        model = Book   

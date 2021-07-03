@@ -2,7 +2,7 @@ from django.shortcuts import render
 from rest_framework import generics
 from django.contrib.auth.models import User
 # from .models import Category, Book, Product, Cart
-from .serializers import RegistrationSerializer,AdvisorSerializer
+from .serializers import RegistrationSerializer,AdvisorSerializer,BookSerializer
 from rest_framework import permissions
 from rest_framework.response import Response
 from rest_framework import status
@@ -13,10 +13,10 @@ from .models import Advisor
 
 
 
-class RegistrationAPIView(generics.CreateAPIView):
+class RegistrationAPIView(generics.ListCreateAPIView):
     
     queryset = User.objects.all()
-    # permission_classes = (AllowAny,)
+    # permission_classes = (permissions.IsAuthenticated,)
     serializer_class = RegistrationSerializer
     
     def post(self, request):
@@ -34,6 +34,12 @@ class RegistrationAPIView(generics.CreateAPIView):
         
         return Response({"Errors": serializers.errors}, status=status.HTTP_400_BAD_REQUEST)
 
-class AdvisorViewSet(generics.GenericAPIView):
+class AdvisorViewSet(generics.ListCreateAPIView):
     queryset=Advisor.objects.all()
+    permission_classes = (permissions.IsAuthenticated,)
     serializer_class=AdvisorSerializer
+
+class ViewSet(generics.ListCreateAPIView):
+    queryset=Advisor.objects.all()
+    permission_classes = (permissions.IsAuthenticated,)
+    serializer_class=BookSerializer    
